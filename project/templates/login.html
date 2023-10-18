@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Email"><br>
+        <input type="password" name="password" placeholder="Password"><br>
+        <button type="submit">Login</button>
+    <a href="logout">log_out</a>
+
+    {% if user.is_authenticated %}
+    {{user}}
+    {% endif %}
+    </form>
+</body>
+</html>

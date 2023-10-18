@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+
+
+    /* icon-shape {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.icon-sm {
+    width: 2rem;
+    height: 2rem;
+} */
+
+
+</style>
+
+
+<div class="contu" style="display: none;">
+<div class="success d-flex flex-column align-items-center justify-content-center">
+    <div style="position: relative;">
+    <img src="{% static '7efs.gif' %}" alt="">
+    <div class="order-success">
+        <p>Order Successfully Placed</p>
+        <a id="order-success" href="http://127.0.0.1:8000/my_order" class="btn">MY ORDERS</a>
+    </div>
+    </div>
+</div>
+</div>
+    
+
+<div class="full-container d-flex" style="margin-left: 5%;">
+    <div class="first-col">
+    <div class="card mt-3" style="width: 52rem;">
+        {% if user.is_authenticated %}
+            <div class="card-title" style="background-color: rgb(255, 255, 255);">
+                <div class="" style="margin: 1.5%;">
+                    <div class="d-flex">
+                        <span class="text-center align-content-center" style="background-color: white; width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                    margin-right: 2%;">1</span>
+                        <p style="color: rgb(154,137,135); font-weight: 700; margin-bottom: 0;">LOGIN</p> 
+                        <span class="material-symbols-outlined" style="color: rgb(40,116,240);">check</span>
+                    </div>
+                <b style="margin: 4.8%;">E-Commerce Customer</b>&nbsp;&nbsp; {{user.username}}
+                </div>
+            </div>
+        {% else %}
+            <div class="card-title" style="background-color: rgb(40,116,240);">
+                <div class="d-flex">
+                    <span class="text-center align-content-center" style="width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                margin-right: 2%;">1</span>
+                    <p style="color: white; margin: 1.5%; font-weight: 700;">LOGIN OR SIGNUP</p>
+                </div>    
+            </div> 
+            <div class="mx-auto" style="padding: 5%;">
+                <button class="btn " data-bs-toggle="modal" data-bs-target="#registerModal" style="background-color: rgb(251,100,27); color: white; font-weight: 600; width: 200px; border-radius: 0;">LOGIN</button>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+    {% if not user.is_authenticated %}
+    <div class="card mt-3" style="width: 52rem;">
+        <div class="card-title" style="background-color: rgb(255, 255, 255);">
+            <div class="d-flex">
+                <span id="2" class="text-center align-content-center" style="width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                    margin-right: 2%;">2</span>
+                <p style="color: rgb(154,137,135); margin: 1.5%; font-weight: 700;">DELIVERY ADDRESS</p>
+            </div>    
+        </div>
+    </div>
+
+    {% elif user.address == none %}
+    <div class="card mt-3" style="width: 52rem;">
+        <div class="card-title" style="background-color: rgb(40,116,240);">
+            <div style="margin: 1.5%;">
+            <div class="d-flex">
+                <span id="2" class="text-center align-content-center" style="width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                        margin-right: 3%;">2</span>
+                <p style="color: white; margin-bottom: 0; font-weight: 700;">DELIVERY ADDRESS</p>
+
+            </div>    
+            </div>
+        </div>
+        <div class="card-body text-center">
+                There is no address you added before
+        </div>
+    </div>
+    <div onclick="add_address()" class="card-title bg-white mt-1" style="width: 50rem; padding: 1%; border-bottom: 1px solid rgb(240, 240, 240); cursor: pointer;">
+        <a style="color: rgb(40,116,240); font-weight: 600; text-decoration: none; padding: 4%;">Add New Address</a>
+    </div>
+    {% elif user.is_authenticated  %}
+    <div class="card mt-3" style="width: 52rem;">
+        <div id="card2" class="card-title d-flex justify-content-between" style="background-color: rgb(255, 255, 255);">
+            <div style="margin: 1.5%;">
+                <div class="d-flex">
+                    <span id="2" class="text-center align-content-center" style="width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                        margin-right: 3%;">2</span>
+                    <p id="delivery" style="color: rgb(154,137,135); font-weight: 700; margin-bottom: 0; width: 150px;">DELIVERY ADDRESS</p>
+                    <span id="address_check" class="material-symbols-outlined" style="color: rgb(40,116,240);">check</span>
+                </div>
+                <span id="address" style="margin: 6.8%; white-space: nowrap; "><b style='font-weight: 500; margin-right: 1%; '>{{user.username}}</b> {{user.address}}</span>
+            </div>    
+            
+            <div class="address_change" style="padding: 3%;">
+                <button onclick="change_address()" class="btn" style="background-color: white; border: 0.1px solid gray; font-weight: 500; color: rgb(40,116,240);">Change</button>
+            </div>
+        </div>
+        <div class="address_tab" style="display: none;">
+        <div class="card-body ">
+            <div class="address d-flex justify-content-between" style="margin-left: 3%;">
+                <div class="address_show d-flex flex-column">
+                    <b>{{user.username}} </b>
+                    <p>{{user.address}} </p>
+                    <button onclick="here()" class="btn" style="background-color: rgb(251,100,27); color: white; font-weight: 600; width: 200px; border-radius: 0;">Delivery Here</button>
+                </div>
+                <div class="edit">
+                    <a style="font-weight:600; text-decoration: none;">Edit</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div onclick="add_address()" id="add" class="card-title bg-white mt-1" style="display:none; width: 50rem; padding: 1%; border-bottom: 1px solid rgb(240, 240, 240); cursor: pointer;">
+        <a style="color: rgb(40,116,240); font-weight: 600; text-decoration: none; padding: 4%;">Add New Address</a>
+    </div>
+    {% endif %}
+
+    <div class="card mt-3" style="width: 52rem;">
+        <div id="card3" class="card-title d-flex justify-content-between" style="background-color: rgb(40,116,240); margin-bottom: 0;">
+            <div style="margin: 1.5%;">
+                <div class="d-flex">
+                    <span id="3" class="text-center align-content-center" style="width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                        margin-right: 9%;">3</span>
+                    <p id="order" style="color: white; font-weight: 700; margin-bottom: 0; width: 180px;">ORDER SUMMARY</p>
+                    <span id="order_check" class="material-symbols-outlined" style="color: rgb(40,116,240); display: none;">check</span>
+                </div>    
+                <span id="item" style="font-weight: 500; display: none;">1 Item</span>
+            </div>
+            <div class="product_change" style="padding: 3%; display: none;">
+                <button onclick="change_order()" class="btn" style="background-color: white; border: 0.1px solid gray; font-weight: 500; color: rgb(40,116,240);">Change</button>
+            </div>
+        </div>
+        <div class="card-body" id="body3" style="display: block;">
+            <div class="row">
+                <div class="col-2 d-flex flex-row">
+                    <img src="{{product.image.url}}" class="mx-auto" alt="" style="max-width: 80px; height: 80px;">
+                    
+                </div>
+                <div class="col-8">
+                    <div class="d-flex flex-column mx-auto">
+                        <p style="font-weight: 700;">{{product.name}}</p>
+                        <p style="font-weight: 600;">₹{{product.price}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group w-auto align-items-center">
+                <input type="button" value="-" class="button-minus border rounded-circle  icon-shape icon-sm mx-1 " data-field="quantity">
+                <input style="    width: 55px;
+                margin: 2% 2%; height: 30px; border: 1px solid gray !important;" type="number" step="1" max="10" value="1" name="quantity" class="quantity-field border-0 text-center">
+                <input type="button" value="+" class="button-plus border rounded-circle icon-shape icon-sm " data-field="quantity">
+                <a class="btn" style="margin-left: 2%; background: transparent; font-weight: 600; color: rgb(0, 0, 0);">Remove</a >
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+            <p style="margin-bottom: 0; font-size: 13px;">Oder confirmation email will be send <b>{{user.email}}</b></p>
+            <div class="justify-content-end align-items-center">
+            <button class="btn" onclick="product()" style="background-color: rgb(251,100,27); font-weight: 600; font-size: 15px; color: white; width: 170px; border-radius: 0;">Continue</button>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card mt-3" style="width: 52rem;">
+        <div class="card-title" id="card4" style=" margin-bottom: 0; background-color: rgb(255, 255, 255);">
+            <div style="margin: 1.5%;">
+                <div class="d-flex">
+                    <span id="4" class="text-center align-content-center" style="width: 22px; height: 22px; font-size: 13px; color: rgb(40,116,240); background-color: rgb(240,240,240);
+                                margin-right: 2%;">4</span>
+                    <p id="payment" style="color: rgb(154,137,135); font-weight: 700; margin-bottom: 0;">PAYMENT OPTION</p>
+                </div>
+            </div>    
+        </div>
+        <div class="card-body" id="body4" style="display: none;"> 
+            <div class="unavailable">          
+                <label for="" class="form-control" style="border: 0"><input type="radio" disabled><span>UPI</span></label><hr>
+                <label for="" class="form-control" style="border: 0"><input type="radio" disabled><span >Wallet</span></label><hr>
+                <label for="" class="form-control" style="border: 0"><input type="radio" disabled><span >Credit / Debit / ATM Card</span></label><hr>
+                <label for="" class="form-control" style="border: 0"><input type="radio" disabled><span >Net Banking</span></label><hr>
+            </div>     
+                <label for="" class="form-control" style="border: 0"><input type="radio" id="cash"><span style="padding-left: 2%;">Cash on Delivery</span></label>
+                <button class="btn oder" onclick="place_order('{{product.id}}')" style="margin-left: 5.3%; display: none; background-color: rgb(251,100,27); font-weight: 600; font-size: 15px; color: white; width: 170px; border-radius: 0;">PLACE ORDER</button>
+                <hr>
+              
+        </div>
+    </div>
+</div>    
+    <div class="second-col">
+        <div class="card mt-3" style="width: 23rem; margin-left: 5%; border-radius: 0;">
+            <div class="card-title" style="margin-bottom: 0; border-bottom: 1px solid rgb(220, 220, 220);">
+                <p style="padding: 13px; margin-bottom: 0; font-weight: 700; font-size: 18px; color: rgb(154,137,135);">PRICE DETAILS</p>
+            </div>
+            <div class="card-body p-4 d-flex justify-content-between">
+                <div class="price-name">
+                    <p style="font-weight: 500;">Price</p>
+                    <p style="font-weight: 500;">Delivery Charges</p>
+                    <p style="border-bottom: 1px dotted rgb(160, 160, 160); width: 192%;"></p>
+                    <p style="font-weight: 700; font-size: larger;">Total Payable</p>
+                </div>
+                
+                <div class="price">
+                    <p style="font-weight: 500;">₹{{product.price}}</p>
+                    <p class="text-success text-center" style="font-weight: 500;">FREE</p>
+                    <p style="border-bottom: 1px dotted rgb(160, 160, 160);"></p>
+                    <p style="font-weight: 700; font-size: larger;">₹{{product.price}}</p>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>    
+
+
+
+<script>
+
+ 
+
+if ('{{user.is_authenticated}}' === 'False'){
+    $('#card3').css('background-color', 'white');
+    $('#order').css('color', 'rgb(154,137,135)');
+    $('#body3').css('display', 'none');   
+}
+
+if ('{{user.address}}' === 'None'){
+    $('#card3').css('background-color', 'white');
+    $('#order').css('color', 'rgb(154,137,135)');
+    $('#body3').css('display', 'none');   
+} 
+
+$('#cash').on('click', function(){
+    $('.oder').css('display', 'block');
+});  
+
+function change_address(){
+    $('.product_change').css('display', 'none');
+    $('.address_change').css('display', 'none');
+    $('#item').css('display', 'block');
+    $('#address').css('display', 'none');
+    $('#body3').css('display', 'none');
+    $('#body4').css('display', 'none');
+    $('#card3').css('background-color', 'white');
+    $('#card4').css('background-color', 'white');
+    $('#order').css('color', 'rgb(154,137,135)');
+    $('#payment').css('color', 'rgb(154,137,135)');
+    $('#item').css('display', 'none');
+
+    $('.address_tab').css('display', 'block');
+    $('#add').css('display', 'block');
+    $('#card2').css('background-color', 'rgb(40,116,240)');
+    $('#delivery').css('color', 'white').css('width', '180px');
+    $('#address').css('display', 'none');
+    $('#address2').css('display', 'none');
+    $('#address_check').css('display', 'none')
+    $('#3').css('background-color', 'rgb(240, 240, 240)')
+    $('#4').css('background-color', 'rgb(240, 240, 240)')
+    $('#2').css('background-color', 'white')
+}
+
+// });
+</script>
+
+{% endblock content %}

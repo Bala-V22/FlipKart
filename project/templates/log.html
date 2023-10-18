@@ -1,0 +1,277 @@
+{% load static %}
+{% block content %}
+
+<style>
+        :root {
+  --primary: #11998e;
+  --secondary: #38ef7d;
+  --white: #fff;
+  --gray: #9b9b9b;
+}
+
+/* .form__group */
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+
+/* .form__field */
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid var(--gray);
+  outline: 0;
+  font-size: 1rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  font-weight: 700;
+}
+
+.form__field1 {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid var(--gray);
+  outline: 0;
+  font-size: 1rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  font-weight: 700;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1rem;
+  cursor: text;
+  top: 15px;
+}
+
+.form__field1:placeholder-shown ~ .form__label {
+  font-size: 1rem;
+  cursor: text;
+  top: 15px;
+}
+
+/* .form__label */
+.form__label {
+  position: absolute;
+  top: -13px;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--gray);
+}
+
+/* .form__field:focus */
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: -3%;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.form__field1:focus ~ .form__label {
+  position: absolute;
+  top: -5%;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, var(--primary), var(--secondary));
+  border-image-slice: 1;
+}
+.form__field1:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, var(--primary), var(--secondary));
+  border-image-slice: 1;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
+}
+
+.modal-content .btn-close {
+  color: white;
+}
+.btn-close
+{
+    color:white !important;
+}
+
+/* Define the shake animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Apply the shake animation to the element with the 'shake' class */
+.shake {
+    animation: shake 0.5s;
+}
+
+.notification {
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    transition: transform 0.5s ease-in-out;
+    z-index: 50;
+}
+
+#cond{
+  font-size: 13px;
+}
+
+@media (max-width: 400px) {
+  #cond{
+  font-size: 11px;
+  }
+  #cond1{
+  font-size: 13px !important;
+}
+
+.btn{
+  width: 93% !important;
+}
+}
+</style>
+
+<div id="notification" class="notification"></div>
+
+
+<div class="modal " id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 700px; position: relative;">      
+      <div class="modal-content">
+        <div class="modal-body" style="padding: 0;">
+            <div class="container-fluid" id="reg" style="display: none;">
+                <div class="row">
+                    <div class="col-5" style="background-color: rgb(40,116,240); padding: 5%; color: white;">
+                        <h5 class="mb-4" style="font-weight: 700; font-size: 25px; margin-top: 10%;">Looks like you're new here!</h5>
+                        <span id="cond1" style="color: rgb(219,219,219);">Sign up with your Email address to get started</span>
+                        <img src="{% static 'log_reg.jpg'%}" class="img-fluid" alt="" srcset="" style="margin-top: 65%;">
+                    </div>
+                    <div class="col-7 d-grid" style="position: relative; margin-top: 10%; margin-bottom: 24.8%;">
+                        <div class="text-1 form-group field" id="text-1" style="display: none; padding: 0 5%;">
+                            <input type="input" class="form__field1" placeholder=""  name="username" id='name' required />
+                            <label for="name" class="form__label">Name</label>
+                        </div>
+                        <div class="text-2 form-group field" id="text-2" style="padding: 0 5%;">    
+                            <input type="email" class="form__field1" placeholder="" name="email" id='email' required />
+                            <label for="name" class="form__label">Email</label>
+                            <!-- <span id="email-error" style="font-size: 12px; display: none;">Check Your Gmail ID correctly</span></div> -->
+                        </div>
+                        <div class="text-3 form-group field" id="text-3" style="display: none; padding: 0 5%;">    
+                            <input type="password" class="form__field1" placeholder="" name="password" id='pass' required />
+                            <label for="name" class="form__label">Password</label>
+                            
+                        </div>    
+                        <div id="pass_shake">
+                            <span id="password-error" style="font-size: 12px; padding-left: 5%;"></span></div>
+                            <p id="cond" style="margin-top: 8%; padding: 0 5%;">By continuing, you agree to Flipkart's <a href="">Terms of Use</a> and <a href="">Privacy Policy.</a></p>
+                            <button id="btn" type="button" onclick="next()" class="btn" style="margin: 0 5%; background-color: rgb(251,100,27); color: white; font-weight: 500;">Continue</button>
+                            <a onclick="to_reg()" class="btn mb-5" style="background-color:white; color: rgb(40,116,240);box-shadow: 0 2px 4px 0 rgba(0,0,0,.2); margin: 3% 5%; font-weight: 500; text-decoration: none; ">Existing User? Log in</a>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid" id="log">
+                <div class="row">
+                    <div class="col-5" style="background-color: rgb(40,116,240); padding: 5%; color: white;">
+                        <h5 class="mb-4" style="font-weight: 700; font-size: 25px; margin-top: 10%;">Login</h5>
+                        <span id="cond1" style="color: rgb(219,219,219);">Get access to your Orders, Wishlist and Recommendations</span>
+                        <img src="{% static 'log_reg.jpg'%}" class="img-fluid" alt="" srcset="" style="margin-top: 65%;">
+                    </div>
+                    <!-- <div class="">
+                        <img src="{% static 'log_reg.jpg' %}" class="img-fluid" alt="">
+                    </div> -->
+                    <div class="col-7 d-grid" style="position: relative; margin-top: 10%;">
+                        <div class="text-2 form-group field" id="text-4" style="padding: 0 5%;">    
+                            <input type="email" class="form__field" placeholder="" name="email" id='email_log' required autofocus/>
+                            <label for="name" class="form__label">Email</label>
+                            
+                        </div>
+                        <div class="text-3 form-group field" id="text-5" style="display: none; padding: 0 5%;">    
+                            <input type="password" class="form__field" placeholder="Password" name="password" id='pass_log' required />
+                            <label for="name" class="form__label">Password</label>
+                        </div>    
+                        <div id="pass_shake1">
+                        <span id="password-error1" style="font-size: 12px; padding-left: 5%;"></span></div>
+                            <p id="cond" style="margin-top: 10%;  padding: 0 5%;">By continuing, you agree to Flipkart's <a href="">Terms of Use</a> and <a href="">Privacy Policy.</a></p>
+                            <button id="btn_log" type="button" onclick="next_login()" class="btn" style="margin: 0 5%; background-color: rgb(251,100,27); color: white; font-weight: 500;">Continue</button>
+                            <a id="cond1" onclick="to_reg()" class="text-center mb-5" style="padding: 0 5%; font-weight: 600; text-decoration: none; margin-top: 50%;">New To Flipkart? Create a account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <button type="button"  data-bs-dismiss="modal" aria-label="Close" style="cursor: pointer; position: absolute; top: 11%; left: 102%; font-size: 20px;
+      color: white !important; background-color: transparent; border: none; font-size: 20px; "><span class="material-symbols-outlined" style="cursor: pointer;">
+close
+</span></button>
+    </div>
+  </div>
+
+  <div class="add mt-5 d-flex justify-content-center" style="display: none !important;">
+    <div class="box bg-white d-flex flex-column" style="padding: 5%;
+    border-radius: 15px; border: 1px solid rgb(230 230 230);">
+    <h4><b>Delivery Address</b></h4>
+        <div class="add_1 bg-white d-flex flex-column mb-5">
+            <p class="h5">Line 1</p>
+            <input type="text" name="add_1" id="add_1" >
+        </div>
+        <div class="add_2 bg-whited d-flex flex-column mb-5" >    
+            <p class="h5">Line 2</p>
+            <input type="text" name="add_2" id="add_2">
+        </div>
+        <div class="add_3 bg-white d-flex flex-column mb-5" >    
+            <p class="h5">Line 3</p>
+            <input type="text" name="add_3" id="add_3">
+        </div>
+        <div class="pin bg-white d-flex flex-column mb-5" >    
+            <p class="h5">Pin</p>
+            <input type="number" name="pin" id="pin">
+        </div>
+        <div class="d-flex justify-content-center" style="padding: 0 15%;">
+            <button type="button" onclick="saveAddress()" class="btn btn-primary" style="width: 100%; height: 60px; font-size: 22px; font-weight: 500;">Save Address</button>
+            </div>
+    </div>
+    </div>
+
+
+  <script>
+    
+  </script>
+
+{% endblock content %}

@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+@media (max-width: 500px) {
+    .btn {
+        font-size: 12px; 
+        white-space: nowrap; 
+        padding-left: 7px;
+        width: 115%;
+    }
+}
+
+@media (max-width: 650px) {
+    .btn {
+        font-size: 12px; 
+        white-space: nowrap; 
+    }
+}
+
+    @media (max-width: 400px) {
+    .btn {
+        font-size: 10px; 
+        white-space: nowrap; 
+        width: 125%;
+        padding-left: 5px;
+    }
+}
+
+
+</style>
+  
+<br>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div id="side_show" class="col-2">
+            <div class="d-flex flex-column" style="margin-top: 50%;">
+                <h4 class="product-name text-center">Fashion Best</h4>
+                <a type="button" href="{% url 'view' category='clothing' %}" class="btn btn-primary">View All</a>
+            </div>
+        </div>
+        <div class="col-9 d-flex flex-row" style="padding-left: 0px; cursor: pointer;">
+            {% for i in product %}
+            {% if i.category == 'clothing'%}
+            <div class="card card_1" id="card_1" onclick="view('{{i.id}}')">
+                <img src="{{ i.image }}" alt="" srcset="" class="img-fluid mx-auto">
+                <div class="card-body">
+                    <p class="product-name text-center">{{ i.name }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<br>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div id="side_show" class="col-2">
+            <div class="d-flex flex-column" style="margin-top: 50%;">
+                <h4 class="product-name text-center">Electronics</h4>
+                <a type="button" href="{% url 'view' category='electronics' %}" class="btn btn-primary">View All</a>
+            </div>
+        </div>
+        <div class="col-9 d-flex flex-row" style="padding-left: 0px;">
+            {% for i in product %}
+            {% if i.category == 'electronics' %}
+            <div class="card card_2" id="card_2" onclick="view('{{i.id}}')" >
+                <img src="{{ i.image }}" alt="" srcset="" class="img-fluid mx-auto">
+                <div class="card-body">
+                    <p class="product-name text-center">{{ i.name }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div id="side_show" class="col-2">
+            <div class="d-flex flex-column" style="margin-top: 50%;">
+                <h4 class="product-name text-center">Best Mobiles</h4>
+                <a type="button" href="{% url 'view' category='mobiles' %}" class="btn btn-primary">View All</a>
+            </div>
+        </div>
+        <div class="col-9 d-flex flex-row" style="padding-left: 0px;">
+            {% for i in product %}
+            {% if i.category == 'mobiles' %}
+            <div class="card card_3" id="card_3" onclick="view('{{i.id}}')" >
+                <img src="{{ i.image }}" alt="" srcset="" class="img-fluid mx-auto">
+                <div class="card-body">
+                    <p class="product-name text-center">{{ i.name }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div id="side_show" class="col-2">
+            <div class="d-flex flex-column" style="margin-top: 50%;">
+                <h4 class="product-name text-center">Homes and Kitchen</h4>
+                <a type="button" href="{% url 'view' category='home' %}" class="btn btn-primary">View All</a>
+            </div>
+        </div>
+        <div class="col-9 d-flex flex-row" style="padding-left: 0px;">
+            {% for i in product %}
+            {% if i.category == 'home' %}
+            <div class="card card_4" id="card_4" onclick="view('{{i.id}}')" >
+                <img src="{{ i.image }}" alt="" srcset="" class="img-fluid mx-auto">
+                <div class="card-body">
+                    <p class="product-name text-center">{{ i.name }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+const products11 = document.querySelectorAll('.card_1');
+let productCount = 0;
+const products12 = document.querySelectorAll('.card_2');
+let productCount2 = 0;
+const products13 = document.querySelectorAll('.card_3');
+let productCount3 = 0;
+const products14 = document.querySelectorAll('.card_4');
+let productCount4 = 0;
+let prevWidth = window.innerWidth;    
+
+function updateFontSize() {
+if(window.innerWidth <= 400){
+    var productNames = document.getElementsByClassName('product-name');
+    // var btn = document.getElementsByClassName('btn').style.fontSize = '10px'
+    for (var i = 0; i < productNames.length; i++) {
+        productNames[i].style.fontSize = '10px';
+    }
+}else if(window.innerWidth <= 700){
+    var productNames = document.getElementsByClassName('product-name');
+    for (var i = 0; i < productNames.length; i++) {
+        productNames[i].style.fontSize = '12px';
+    }
+}
+else {
+        var productNames = document.getElementsByClassName('product-name');
+        for (var i = 0; i < productNames.length; i++) {
+            productNames[i].style.fontSize = ''; 
+        }
+    } 
+    
+}
+
+window.addEventListener('resize', updateFontSize);
+updateFontSize();
+
+function updateProductVisibility() {
+    if (window.innerWidth <= 700) {
+        productCount = 0;
+        products11.forEach((card, index) => {
+            card.style.display = index < 3 ? 'block' : 'none';
+        });
+    } else {
+        productCount = 0; 
+        products11.forEach((card, index) => {
+            card.style.display = index < 4 ? 'block' : 'none';
+        });
+    }
+
+    if (window.innerWidth <= 700) {
+        productCount2 = 0; 
+        products12.forEach((card, index) => {
+            card.style.display = index < 3 ? 'block' : 'none';
+        });
+    } else {
+        productCount2 = 0; 
+        products12.forEach((card, index) => {
+            card.style.display = index < 4 ? 'block' : 'none';
+        });
+    }
+
+    if (window.innerWidth <= 700) {
+        productCount3 = 0; 
+        products13.forEach((card, index) => {
+            card.style.display = index < 3 ? 'block' : 'none';
+        });
+    } else {
+        productCount3 = 0;
+        products13.forEach((card, index) => {
+            card.style.display = index < 4 ? 'block' : 'none';
+        });
+    }
+
+    if (window.innerWidth <= 700) {
+        productCount4 = 0;
+        products14.forEach((card, index) => {
+            card.style.display = index < 3 ? 'block' : 'none';
+        });
+    } else {
+        productCount4 = 0;
+        products14.forEach((card, index) => {
+            card.style.display = index < 4 ? 'block' : 'none';
+        });
+    }
+
+}
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth !== prevWidth) {
+        prevWidth = window.innerWidth;
+        updateProductVisibility();
+    }
+});
+
+updateProductVisibility();
+
+    
+</script>
+
+{% endblock content %}

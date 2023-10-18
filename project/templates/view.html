@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if products %}
+   
+<style>
+    @media (max-width: 400px) {
+        .resize-cont{
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .resize-cont{
+            font-size: 12px;
+        }
+    }
+
+</style>
+
+<div class="container-fluid">
+    <div class="row" style="background-color: white;">
+        <div class="col-5" style="margin: 3% 0;">
+            <div class="sticky-top d-flex flex-column">
+                <div class="image_container mx-auto">
+                <img src="{{ products.image }}" alt="" class="img-fluid mx-auto" style=" width: 100%; ">
+                </div>
+                <div id="cls" class="d-flex flex-row">
+                {% if user.is_authenticated %}    
+                <button class="btn" id="add_to" onclick="cart('{{ products.id }}')">Add To Cart</button>
+                <button class="btn" id="go_to" style="display: none;" onclick="window.location.href='{% url 'cart_page'%}'">Go To Cart</button>
+                <button type="button" id="buy_btn" onclick="window.location.href =  '{% url 'product_details' product_id=products.id order=0 %}'" class="btn" >Order!</button>
+                {% else %}
+                <button class="btn" id="add_to" data-bs-toggle="modal" data-bs-target="#registerModal">Add To Cart</button>
+                <a type="button" id="buy_btn"onclick="window.location.href =  '{% url 'product_details' product_id=products.id order=0 %}'" class="btn">Order!</a>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-7" style="margin: 3% 0;">
+            <p style="font-size: 22px;">{{products.name}}</p>
+            <b id="p-price">₹{{products.price}}</b>
+            <div class="resize-cont">
+            <h5 style="margin-top: 2%;">Available offers</h5>
+            <p id="offers"><b>Bank Offer</b> Flat ₹200 off on HDFC Bank Credit/Debit Card on 3 months EMI Txns, Min Txn Value ₹10,000 <br><br>
+
+               <b>Bank Offer</b> Flat ₹500 off on HDFC Bank Credit/Debit Card on 6 months EMI Txns, Min Txn Value ₹10,000 <br><br>
+                
+               <b>Bank Offer</b> Flat ₹500 off on HDFC Bank Credit/Debit Card on 9 months EMI Txns, Min Txn Value ₹10,000 <br><br>
+                
+                Extra ₹500 Off on Bikes & Scooters on purchase of ₹30,000 or moreT&C</p>
+
+                <div class="row mt-5" >
+                    <div class="col-3">
+                        <p>Description</p>
+                    </div>
+                    <div class="col-9">
+                        <p>{{products.description}}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos ut dolor quibusdam eos, repudiandae laboriosam blanditiis consequatur voluptatibus impedit itaque dignissimos error veritatis mollitia laborum magni quis necessitatibus. Asperiores ea debitis laudantium fugit non, autem nostrum et delectus maxime minima aspernatur vitae at quod iste sint fuga quaerat! Maxime, dignissimos?</p>
+                    </div>
+                </div>
+                <div class="about" style="margin-top: 5%;">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure molestiae ab doloremque quam! Ea expedita quam mollitia atque ratione modi praesentium numquam libero quos ullam dolore exercitationem maiores similique, placeat officia, assumenda, cupiditate nostrum quisquam repudiandae eos a! Aperiam ad, quisquam accusamus rerum quaerat quod, tenetur itaque vitae odit officia saepe atque, vero magni repellendus. Necessitatibus, explicabo dolorem ipsum quisquam reprehenderit quod iste veritatis pariatur quam autem odit nihil eius nemo dolor eum commodi exercitationem enim saepe! Molestias quisquam dicta aut maxime expedita ratione nobis voluptatibus delectus beatae optio! Voluptatum, doloribus! Alias corporis illo quidem quo ab, laudantium, non temporibus exercitationem culpa architecto consequuntur, labore eius excepturi in accusamus optio quam aliquid rem doloribus. Ratione asperiores esse ex cupiditate amet facere possimus, beatae officia, impedit consequatur libero voluptate aspernatur deserunt rerum cum commodi totam nostrum unde, est ab dolores harum? Quisquam nulla exercitationem et quasi nobis adipisci tenetur laborum fugiat saepe dolorem provident neque libero architecto consequatur praesentium corporis dolore reiciendis, deleniti autem similique sint aliquam illo quos molestiae. Sapiente quod vel reiciendis, pariatur fuga, corrupti sunt eius, dolores odit sint culpa doloribus quibusdam similique tempora earum? Cupiditate ea deserunt possimus laboriosam. Illo hic natus tenetur iste at cum quo?
+                </div><br><br>
+                <p class="text-center">Safe and Secure Payments.Easy returns.100% Authentic products.</p>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" style="margin-top: 3%;">
+    <div class="row justify-content-center"> 
+
+        <p id="type_name">More {{products.category}} products</p>
+        <div class="col-12 d-flex flex-row pro-list">
+            
+            {% for i in more_related_category %}
+            {% if i.category == products.category %}
+            <div class="card card_1" id="card_11" onclick="view('{{i.id}}')">
+                <img src="{{ i.image }}" alt="" class="img-fluid mx-auto" style="max-width: 85%; height: 60%; margin: 6%;">
+                <div class="card-body product-name">
+                    <p>{{ i.name }}</p>
+                    <b>₹{{i.price}}</b>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" style="margin-top: 3%;">
+    <div class="row justify-content-center"> 
+
+        <p id="type_name">More Products</p>
+        <div class="col-12 d-flex flex-row pro-list">
+            
+            {% for i in more_product %}
+            <div class="card card_2" id="card_12" onclick="view('{{i.id}}')">
+                <img src="{{ i.image }}" alt="" class="img-fluid mx-auto" style="max-width: 85%; height: 60%; margin: 6%;">
+                <div class="product-name card-body">
+                    <p>{{ i.name }}</p>
+                    <b>₹{{i.price}}</b>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+  
+
+{% else %}
+<!-- <div class="outer-container"> -->
+    <div class="container-fluid mt-3 bg-white" style="width: 95% !important;">
+        <div class="view d-flex flex-row flex-wrap justify-content-center">
+            {% for i in product %}
+            <div class="card ganesh" style=" border: none;" onclick="get('{{i.id}}')">
+                {% csrf_token %}
+                <img src="{{i.image}}" alt="" class="img-fluid mx-auto" style="max-width: 80%; height: 60%; margin: 6%;">
+                <div class="card-body">
+                    <p class="text-center">{{i.name}}</p>
+                    <p class="text-center text-success">₹{{i.price}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+<!-- </div> -->
+
+
+{% endif %}
+
+
+<script>
+
+
+const products1 = document.querySelectorAll('.card_1');
+let productCount = 0;
+const products2 = document.querySelectorAll('.card_2');
+let productCount2 = 0;
+let prevWidth = window.innerWidth;  
+
+function updateProductVisibility() {
+    if (window.innerWidth <= 450) {
+        productCount = 0;
+        products1.forEach((card, index) => {
+            card.style.display = index < 3 ? 'block' : 'none';
+        });
+        var productNames = document.getElementsByClassName('product-name');
+    for (var i = 0; i < productNames.length; i++) {
+        productNames[i].style.fontSize = '12px';
+    }
+    }else if (window.innerWidth <= 600) {
+        productCount = 0;
+        products1.forEach((card, index) => {
+            card.style.display = index < 4 ? 'block' : 'none';
+        });
+        var productNames = document.getElementsByClassName('product-name');
+    for (var i = 0; i < productNames.length; i++) {
+        productNames[i].style.fontSize = '14px';
+    }
+    }else if (window.innerWidth <= 700) {
+        // console.log(1)
+        productCount = 0;
+        products1.forEach((card, index) => {
+            card.style.display = index < 5 ? 'block' : 'none';
+        });
+        var productNames = document.getElementsByClassName('product-name');
+    for (var i = 0; i < productNames.length; i++) {
+        productNames[i].style.fontSize = '15px';
+    }
+    } else {
+        productCount = 0; 
+        products1.forEach((card, index) => {
+            card.style.display = index < 6 ? 'block' : 'none';
+        });
+        var productNames = document.getElementsByClassName('product-name');
+    for (var i = 0; i < productNames.length; i++) {
+        productNames[i].style.fontSize = '';
+    }
+    }
+
+    if (window.innerWidth <= 450) {
+        productCount2 = 0;
+        products2.forEach((card, index) => {
+            card.style.display = index < 3 ? 'block' : 'none';
+        });
+    }else if (window.innerWidth <= 600) {
+        productCount2 = 0;
+        products2.forEach((card, index) => {
+            card.style.display = index < 4 ? 'block' : 'none';
+        });
+    }else if (window.innerWidth <= 700) {
+        productCount2 = 0; 
+        products2.forEach((card, index) => {
+            card.style.display = index < 5 ? 'block' : 'none';
+        });
+    } else {
+        productCount2 = 0; 
+        products2.forEach((card, index) => {
+            card.style.display = index < 6 ? 'block' : 'none';
+        });
+    }
+}    
+
+window.addEventListener('resize', () => {
+    if (window.innerWidth !== prevWidth) {
+        prevWidth = window.innerWidth;
+        updateProductVisibility();
+    }
+});
+
+updateProductVisibility();
+
+
+if ('{{products}}'){
+    const id_check = '{{products.id}}'
+    $.ajax({
+        url : `http://127.0.0.1:8000/api/cart_check/${id_check}`,
+        type: 'GET',
+        headers: {'Content-Type': 'application/josn',
+        'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(data){
+            if(data.alert === true){
+                $('#go_to').css('display', 'block');
+                $('#add_to').css('display', 'none');
+            }
+        },
+        error:function(error){
+            console.log(error);
+            },
+    })
+}
+
+
+function updateClassNameBasedOnScreenSize() {
+    var element = document.getElementById('cls');
+    var btn_flex = document.querySelectorAll('#add_to, #go_to, #buy_btn');
+ 
+    if (window.innerWidth <= 400) {
+        element.classList.add('flex-column');
+        element.classList.remove('flex-row');
+        btn_flex.forEach(function(btn) {
+            btn.style.width = '100%';
+            btn.style.fontSize = '15px';
+            btn.style.padding = '0px';
+        });
+    } else if (window.innerWidth <= 800) {
+        element.classList.add('flex-column');
+        element.classList.remove('flex-row');
+        btn_flex.forEach(function(btn) {
+            btn.style.width = '100%';
+        });
+    }else {
+        element.classList.remove('flex-column');
+        element.classList.add('flex-row');
+        btn_flex.forEach(function(btn) {
+            btn.style.fontSize = '';
+        });
+    }
+}
+
+
+updateClassNameBasedOnScreenSize();
+window.addEventListener('resize', updateClassNameBasedOnScreenSize);
+
+   
+</script>
+
+{% endblock content %}

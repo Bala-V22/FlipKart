@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<style>
+    .card{
+        width: 52rem;
+    }
+
+    .card-col{
+        width: 23rem;
+        margin-left: 5%;
+        border-radius: 0;
+    }
+
+    #address{
+        white-space: nowrap;
+    }
+    @media (max-width : 400px) {
+        .card, .card-col{
+            width: 21rem;
+        }
+
+        #card2{
+            font-size: 11px;
+        }
+
+        #body3{
+            font-size: 13px;
+        }
+
+        .later, .remove-button{
+            font-size: 14px;
+        }
+
+        #address{
+            white-space: normal;
+        }
+
+        #product_image{
+            width: 160%;
+            height: 60px;
+        }
+    }
+</style>
+
+<div class="full-container d-flex " id="control" style="margin-left: 5%;">
+    <div class="first-col">
+    <div class="card mt-3">
+            <div class="card-title" style="background-color: rgb(255, 255, 255);">
+                <div class="text-center" style="margin: 1.5%;">
+                <b id="cart-name">CART</b>
+                </div>
+            </div> 
+    </div>
+
+
+
+    <div class="card mt-3">
+        <div id="card12">
+        <div id="card2" class="card-title d-flex justify-content-between" style="background-color: rgb(255, 255, 255);">
+            <div style="margin: 1.5%;">
+                <div class="d-flex">
+                    <p style='margin:0 0% 0 6.8%;'>Delivery to:</p>
+                    <b id="delivery" style=" font-weight: 700; width: 150px; margin-left: 2%;">{{user.username}}</b>
+                </div>
+                <span id="address" style="margin: 6.8%;  "> {{user.address}}</span>
+            </div>    
+            
+            <div class="address_change" style="padding: 2%;">
+                <button onclick="change_address()" class="btn" style="background-color: white; border: 0.1px solid gray; font-weight: 500; color: rgb(40,116,240);">Change</button>
+            </div>
+            </div>
+        </div>
+        <div class="address_tab" style="display: none;">
+        <div class="card-body ">
+            <div class="address d-flex justify-content-between" style="margin-left: 3%;">
+                <div class="address_show d-flex flex-column">
+                    <b>{{user.username}} </b>
+                    <p>{{user.address}} </p>
+                    <button onclick="here()" class="btn" style="background-color: rgb(251,100,27); color: white; font-weight: 600; width: 200px; border-radius: 0;">Delivery Here</button>
+                </div>
+                <div class="edit">
+                    <a style="font-weight:600; text-decoration: none;">Edit</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div onclick="add_address()" id="add" class="card-title bg-white mt-1" style="display:none; width: 50rem; padding: 1%; border-bottom: 1px solid rgb(240, 240, 240); cursor: pointer;">
+        <a style="color: rgb(40,116,240); font-weight: 600; text-decoration: none; padding: 4%;">Add New Address</a>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body" id="body3" style="display: block;">
+            {% for i in cart %}
+            <div class="row">
+                <div class="col-2 d-flex flex-row">
+                    <img id="product_image" src="{{i.product.image.url}}" onclick="view('{{i.id}}')" class="mx-auto">                    
+                </div>
+                <div class="col-8">
+                    <div class="d-flex flex-column mx-auto">
+                        <p id="product_name" style="font-weight: 700;" onclick="view('{{i.id}}')">{{i.product.name}}</p>
+                        <p class="productPrice" id="price" style="font-weight: 600;">₹{{i.product.price}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group w-auto align-items-center" style="margin-left: 15%;">
+                <a class="btn later" >SAVE FOR LATER</a >
+                <a class="btn remove-button" data-item-id="{{ i.id }}" data-bs-toggle="modal" data-bs-target="#registerModal1" style="margin-left: 2%; background: transparent; font-weight: 600; color: rgb(0, 0, 0);">REMOVE</a >
+            </div>
+            <hr style="width: 104%;
+            margin-left: -16px;">
+            {% endfor %}
+        </div>
+    </div>
+
+</div>    
+    <div class="second-col">
+        <div class="card card-col mt-3">
+            <div class="card-title" style="margin-bottom: 0; border-bottom: 1px solid rgb(220, 220, 220);">
+                <p style="padding: 13px; margin-bottom: 0; font-weight: 700; font-size: 18px; color: rgb(154,137,135);">PRICE DETAILS</p>
+            </div>
+            <div class="card-body p-4 d-flex justify-content-between">
+                <div class="price-name">
+                    <p id="totalitem" style="font-weight: 500;">Price</p>
+                    <p style="font-weight: 500;">Delivery Charges</p>
+                    <p style="border-bottom: 1px dotted rgb(160, 160, 160); width: 192%;"></p>
+                    <p style="font-weight: 700; font-size: larger;">Total Amount</p>
+                </div>
+                
+                <div class="price">
+                    <p id="totalprice" style="font-weight: 500;">₹0</p>
+                    <p class="text-success text-center" style="font-weight: 500;">FREE</p>
+                    <p style="border-bottom: 1px dotted rgb(160, 160, 160);"></p>
+                    <p id="totalprices" style="font-weight: 700; font-size: larger;">₹0</p>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal" id="registerModal1" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px; position: relative;">      
+      <div class="modal-content">
+        <div class="modal-body" style="padding: 30px;">
+
+            <p style="font-weight: 700;">Remove Item</p>
+            <p style="font-size: 13px; color: rgb(150, 150, 150);">Are you sure you want to remove this item?</p>
+            <div class="d-flex">
+                <button class="btn modal-cancel" data-bs-dismiss="modal" aria-label="Close">CANCEL</button>
+                <button id="confirmRemoveButton" class="btn remove-confirm-button" >REMOVE</button>
+            </div>
+            </div>
+            <button type="button"  data-bs-dismiss="modal" aria-label="Close" style="cursor: pointer; position: absolute; top: 2%; left: 102%; font-size: 20px;
+            color: white !important; background-color: transparent; border: none; font-size: 20px; "><span class="material-symbols-outlined" style="cursor: pointer;">
+      close
+      </span></button>
+          </div>
+        </div>
+        </div>
+
+
+<script>
+
+    function updateClassNameBasedOnScreenSize() {
+    var element = document.getElementById('control');
+    
+    if (window.innerWidth <= 400) {
+        console.log(1)
+        element.classList.add('flex-column');
+        $('.card-col').css('margin-left', '0');
+    } else {
+        element.classList.remove('flex-column');
+        $('.card-col').css('margin-left', '5%');
+    }
+}
+
+
+updateClassNameBasedOnScreenSize();
+window.addEventListener('resize', updateClassNameBasedOnScreenSize);
+</script>
+
+{% endblock content %}

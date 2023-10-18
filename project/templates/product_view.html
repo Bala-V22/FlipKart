@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Product Details</h1>
+<div class="container">
+    <img src="{{ products.image }}" alt="" class="img-fluid mx-auto" style="max-width: 80%; height: 60%; margin: 6%;">
+    <h4>{{ products.name }}</h4>
+    <h6>{{ products.price }}</h6>
+    <button type="submit">Order!</button>
+</div>
+
+{% endblock content %}

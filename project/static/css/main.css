@@ -1,0 +1,237 @@
+/* home page css */
+
+#side_show{
+    background-color: white;
+    border-top: 1px solid #eaeaea; 
+    border-bottom: 1px solid #eaeaea;
+}
+
+#card_1 , #card_2, #card_3, #card_4{
+    width: 16rem; 
+    border: none; 
+    border-top: 1px solid #eaeaea; 
+    border-bottom: 1px solid #eaeaea; 
+    border-radius: 0px;
+}
+
+.card img{
+    width: 75%; 
+    height: 60%; 
+    margin: 6%;
+}
+
+.card:hover img{
+    cursor: pointer;
+    transform: scale(105%);
+    transition: 0.3s ease;
+}
+
+
+/* view page css */
+
+.image_container{
+    width: 95%; 
+    border: 2px solid rgb(240, 240, 240);
+}
+
+#add_to, #go_to{
+    width: 50%; 
+    background-color: rgb(255,159,0); 
+    height: 60px; 
+    color: white; 
+    font-size: 18px; 
+    font-weight: 700; 
+    border-radius: 0;
+    margin: 5% 2% 0 2%;
+}
+
+#buy_btn{
+    width: 50%;                
+    background-color: rgb(251,100,27);    
+    height: 60px; 
+    color: white; 
+    font-size: 18px; 
+    font-weight: 700; 
+    border-radius: 0; 
+    margin: 5% 2% 0 2%;
+}
+
+#p_price{
+    color: black; 
+    font-size: 32px; 
+    font-weight: 700;
+}
+
+#offers b{
+    color: green;
+}
+
+#card_11, #card_12{
+    width: 16rem; 
+    border: none; 
+    border-bottom: 1px solid #eaeaea; 
+    border-radius: 0px;
+}
+
+#type_name{
+    border-top: 1px solid #eaeaea; 
+    background-color: white; 
+    margin-bottom: 0; 
+    padding: 1%; 
+    font-weight: 600; 
+    font-size: 26px;
+}
+
+.pro-list{
+    padding-left: 0px; 
+    border: none; 
+    padding-right: 0;
+}
+
+/* order place css */
+
+.success{
+    background-color: white; 
+    position: absolute; 
+    top: -4%; 
+    left: 0; 
+    height: 100vh; 
+    width: 100%; 
+    z-index: 999;
+}
+
+.order-success{
+    position: absolute;  
+    top: 72%; 
+    left: 19%; 
+    font-size: 25px; 
+    font-weight: 600;
+}
+
+#order-succes{
+    background-color: rgb(40,116,240); 
+    color: white; 
+    font-weight: 600; 
+    margin-left: 29%;
+}
+
+.unavailable span{
+    padding-left: 2%; 
+    color: rgb(135,150,185);
+}
+
+.unavailable input[type = 'radio']:hover{
+    cursor: no-drop;
+}
+
+.box input[type='text'],input[type='number']{
+    height: 50px;
+    border-radius: 10px;
+}
+
+.box input[type='text']:focus ,input[type='number']:focus {
+    border:0;
+    outline:none;
+    border:2px solid green;
+}
+
+.add_1:hover, .add_2:hover, .add_3:hover, .pin:hover{
+    transform: scale(103%);
+}
+
+.add_1, .add_2, .add_3, .pin{
+    border-radius: 10px; 
+    width: 750px; 
+    padding: 3%; 
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@media (max-width: 400px)  {
+    .add_1, .add_2, .add_3, .pin{
+        width: 300px;
+    }
+}
+
+/* navbar views css */
+.navbar{
+    font-weight: 600;
+}
+
+/* myorders views css */
+
+@media screen and (max-width: 400px) {
+    .ganesh {
+      width:50% !important;
+      font-size: 12px;
+    }
+  }
+
+  .ganesh{
+    width: 18rem;
+  }
+
+#order_card:hover{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+}
+
+.pending{
+    margin: 8px; 
+    background-color: #ff9f00; 
+    border: 2px solid #ff9f00; 
+    height: 10px; 
+    width: 10px; 
+    border-radius: 50%;
+}
+
+.order-img img{
+    width: 75px; 
+    height: 75px; 
+    margin: 0;
+}
+
+#order_card{
+    width: 70rem; 
+    transition: 0.2s ease-in;
+}
+
+/* cart view css */
+
+#product_name:hover, #product_image:hover{
+    color: rgb(40,116,240);
+    cursor: pointer;
+}
+
+#cart-name{
+    margin: 4.8%; 
+    color: rgb(40,116,240);
+}
+
+#product_image{
+    max-width: 80px; 
+    height: 80px;
+}
+
+.later, .remove-button{
+    margin-left: 2%; 
+    background: transparent; 
+    font-weight: 600; 
+    color: rgb(0, 0, 0);
+}
+
+.modal-cancel{
+    background-color: white; 
+    color: black; 
+    width: 170px; 
+    border: 1px solid rgb(194,194,194); 
+    height: 50px;
+    border-radius: 0; 
+    margin-right: 6%;
+}
+
+.remove-confirm-button{
+    background-color: rgb(40,116,240); 
+    color: white; 
+    width: 170px; height: 50px;
+    border-radius: 0;
+}
